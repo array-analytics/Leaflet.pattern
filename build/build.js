@@ -116,8 +116,8 @@ exports.build = function (compsBase32, buildName) {
 	console.log('Concatenating ' + files.length + ' files...');
 
 	var copy = fs.readFileSync('src/copyright.js', 'utf8'),
-	    intro = '(function (window, document, undefined) {',
-	    outro = '}(window, document));',
+	    intro = "(function (factory, window) { if (typeof define === 'function' && define.amd) { define(['leaflet'], factory); } else if (typeof exports === 'object') { module.exports = factory(require('leaflet')); } if (typeof window !== 'undefined' && window.L) { window.L.Pattern = factory(L); } }(function (L) {",  // update this line to add in the plugin code
+	    outro = 'return L.Pattern; }, window));', // update this line to close out the plugin code.
 	    newSrc = copy + intro + combineFiles(files) + outro,
 
 	    pathPart = 'dist/leaflet.pattern' + (buildName ? '-' + buildName : ''),
